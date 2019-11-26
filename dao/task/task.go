@@ -2,6 +2,7 @@ package task
 
 import (
 	"database/sql"
+	"project-support-system/dao"
 )
 
 type TaskDao struct {

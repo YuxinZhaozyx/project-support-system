@@ -20,8 +20,8 @@ func connectMysql() (*sql.DB, error) {
 		return nil, err
 	}
 
-	mysqlDB.SetMaxIdleConns(mysqlDB["maxIdleConnection"].(int))
-	mysqlDB.SetMaxOpenConns(mysqlDB["maxOpenConnection"].(int))
+	mysqlDB.SetMaxIdleConns(mysqlConfig["maxIdleConnection"].(int))
+	mysqlDB.SetMaxOpenConns(mysqlConfig["maxOpenConnection"].(int))
 
 	if err = mysqlDB.Ping(); err != nil {
 		return nil, err

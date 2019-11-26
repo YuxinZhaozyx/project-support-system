@@ -2,6 +2,8 @@ package task
 
 import (
 	"database/sql"
+
+	"project-support-system/dao"
 )
 
 type TaskDao struct {
@@ -10,7 +12,7 @@ type TaskDao struct {
 
 func Connect() (*TaskDao, error) {
 	var err error
-	taskDao = &TaskDao{}
+	taskDao := new(TaskDao)
 	taskDao.db, err = dao.Connect()
 	if err != nil {
 		return nil, err

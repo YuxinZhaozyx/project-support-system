@@ -8,7 +8,7 @@ func (taskDao *TaskDao) CreateTasks(tasks []model.Task) (err error) {
 	insertString := "INSERT INTO Task (title, startTime, endTime, description, rank, prevTask, idGroup) VALUE (?, ?, ?, ?, ?, ?, ?)"
 
 	for _, task := range tasks {
-		_, err = taskDao.db.Exec(insertString, task.Title, task.StartTime, task.EndTime, task.Description, task.Rank, task.PrevTask, task.IdGroup)
+		_, err = taskDao.db.Exec(insertString, task.Title, task.StartTime, task.EndTime, task.Description, task.Rank, task.PreviousTask, task.IdGroup)
 		if err != nil {
 			return err
 		}
@@ -31,7 +31,7 @@ func (taskDao *TaskDao) GetTasksByIdProject(idProject int) ([]model.Task, error)
 
 	for rows.Next() {
 		var task model.Task
-		err = rows.Scan(&task.Id, &task.Title, &task.StartTime, &task.EndTime, &task.Description, &task.Rank, &task.PrevTask, &task.IdGroup)
+		err = rows.Scan(&task.Id, &task.Title, &task.StartTime, &task.EndTime, &task.Description, &task.Rank, &task.PreviousTask, &task.IdGroup)
 		tasks = append(tasks, task)
 	}
 
@@ -41,7 +41,7 @@ func (taskDao *TaskDao) GetTasksByIdProject(idProject int) ([]model.Task, error)
 func (taskDao *TaskDao) DeleteTasksByIdProject(idProject int) error {
 	deleteString := `DELETE FROM Task WHERE idProject = ?`
 
-	_, err = taskDao.db.Exec(deleteString, idProject)
+	_, err := taskDao.db.Exec(deleteString, idProject)
 	if err != nil {
 		return err
 	}

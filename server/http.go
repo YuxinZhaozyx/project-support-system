@@ -29,5 +29,8 @@ func router() *iris.Application {
 	// 设置各模块的路由
 	server_task.SetRouter(app)
 
+	// 人员管理
+	server_user.SetRouter(app)
+
 	return app
 }

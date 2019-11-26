@@ -15,7 +15,7 @@ func connectMysql() (*sql.DB, error) {
 	}
 
 	var mysqlDB *sql.DB
-	mysqlDB, err = sql.Open("mysql", mysqlConfig["url"])
+	mysqlDB, err = sql.Open("mysql", mysqlConfig["url"].(string))
 	if err != nil {
 		return nil, err
 	}

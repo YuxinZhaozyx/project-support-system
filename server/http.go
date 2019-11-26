@@ -7,7 +7,9 @@ import (
 	"github.com/kataras/iris/v12/middleware/logger"
 	"github.com/kataras/iris/v12/middleware/recover"
 
+	server_notification "project-support-system/server/notification"
 	server_task "project-support-system/server/task"
+	server_user "project-support-system/server/user"
 )
 
 func Run(address string) {
@@ -28,9 +30,8 @@ func router() *iris.Application {
 
 	// 设置各模块的路由
 	server_task.SetRouter(app)
-
-	// 人员管理
 	server_user.SetRouter(app)
+	server_notification.SetRouter(app)
 
 	return app
 }

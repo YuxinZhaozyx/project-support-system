@@ -11,3 +11,8 @@ func Connect() (*sql.DB, error) {
 	}
 	return mysqlDB, nil
 }
+
+func Close() (*sql.DB, error) {
+	// TODO
+	return nil, nil
+}

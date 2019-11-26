@@ -8,17 +8,20 @@ import (
 	"project-support-system/utils"
 
 	"encoding/json"
+	"time"
+
+	"strconv"
 )
 
 func getTasks(ctx iris.Context) {
-	idProject := ctx.FormValue("idProject")
+	idProject, err := strconv.Atoi(ctx.FormValue("idProject"))
 	tasks, err := service_task.GetTasks(idProject)
 	if err != nil {
 		utils.SendErrorResponse(ctx, "error in getting tasks")
 		return
 	}
 
-	numTasks = len(tasks)
+	numTasks := len(tasks)
 	data := make([]map[string]interface{}, numTasks)
 	for i, task := range tasks {
 		data[i] = map[string]interface{}{
@@ -36,27 +39,28 @@ func getTasks(ctx iris.Context) {
 }
 
 func updateTasks(ctx iris.Context) {
-	idProject := ctx.FormValue("idProject")
+	idProject, err := strconv.Atoi(ctx.FormValue("idProject"))
 	taskJSON := ctx.FormValue("tasks")
 
 	var taskMaps []map[string]interface{}
-	err := json.Unmarshal(tasksJSON.([]byte), tasksMap)
+	err = json.Unmarshal([]byte(taskJSON), taskMaps)
 	if err != nil {
 		utils.SendErrorResponse(ctx, "error in parsing tasks")
 		return
 	}
 
+
 	var tasks = make([]model_task.Task, len(taskMaps))
 	for i, task := range taskMaps {
-		tasks[i].Id = task["id"]
-		tasks[i].Rank = task["rank"]
-		tasks[i].Title = task["title"]
-		tasks[i].Description = task["description"]
-		tasks[i].StartTime = task["start_time"]
-		tasks[i].EndTime = task["end_time"]
+		tasks[i].Id = task["id"].(int)
+		tasks[i].Rank = task["rank"].(int)
+		tasks[i].Title = task["title"].(string)
+		tasks[i].Description = task["description"].(string)
+		tasks[i].StartTime = task["start_time"].(time.Time)
+		tasks[i].EndTime = task["end_time"].(time.Time)
 	}
 
-	err := model_task.updateTasks(idProject, tasks)
+	err = service_task.UpdateTasks(idProject, tasks)
 	if err != nil {
 		utils.SendErrorResponse(ctx, "error in updating tasks")
 		return

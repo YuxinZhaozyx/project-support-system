@@ -21,20 +21,19 @@ func GetTasks(idProject int) ([]model_task.Task, error) {
 	return tasks, nil
 }
 
-func UpdateTasks(tasks []model_task.Task) error {
+func UpdateTasks(idProject int, tasks []model_task.Task) error {
 	dao, err := dao_task.Connect()
 	if err != nil {
-		return nil, err
+		return err
 	}
 	defer dao.Close()
 
-	var task []model_task.Task
-	tasksOld, err = dao.DeleteTasksByIdProject(idProject)
+	err = dao.DeleteTasksByIdProject(idProject)
 	if err != nil {
 		return err
 	}
 
-	err = dao.CreateTasks(task)
+	err = dao.CreateTasks(tasks)
 	if err != nil {
 		return err
 	}
